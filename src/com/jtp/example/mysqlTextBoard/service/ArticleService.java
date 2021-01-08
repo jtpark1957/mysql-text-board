@@ -14,6 +14,7 @@ public class ArticleService {
 	public List<Article> getArticles() {
 		// TODO Auto-generated method stub
 		return articleDao.getArticles();
+		
 	}
  
 }
