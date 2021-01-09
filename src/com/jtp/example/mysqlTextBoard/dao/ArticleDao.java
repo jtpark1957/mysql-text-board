@@ -2,6 +2,7 @@ package com.jtp.example.mysqlTextBoard.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class ArticleDao {
 		
 		try {
 			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-			String dbmsLoginId = "jttp";
+			String dbmsLoginId = "jttpp";
 			String dbmsLoginPw = "123412";
 
 			// 기사 등록
@@ -34,6 +35,18 @@ public class ArticleDao {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			
+			String sql = "UPDATE article";
+			sql += " SET updateDate = NOW()";
+			sql += " WHERE id = 3";
+
+			try {
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
 		} finally {
 			// TODO: handle finally clause
 			System.out.println("여기는 항상 실행됨!!");
