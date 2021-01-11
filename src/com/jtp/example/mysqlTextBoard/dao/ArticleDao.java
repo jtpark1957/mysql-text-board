@@ -8,66 +8,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.jtp.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlutil.MysqlUtil;
+import com.sbs.example.mysqlutil.SecSql;
 
 public class ArticleDao {
 
 	public List<Article> getArticles() {
 
 		List<Article> articles = new ArrayList<>();
-		Connection con = null;
-		
-		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-			String dbmsLoginId = "jttpp";
-			String dbmsLoginPw = "123412";
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM article");
+		sql.append("ORDER BY id DESC");
 
-			// 기사 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
 
-			// 연결 생성
-			
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();			}
-			
-			String sql = "SELECT * FROM article ORDER BY id DESC";
-
-			try {
-				PreparedStatement pstmt = con.prepareStatement(sql);
-				ResultSet rs = pstmt.executeQuery();
-
-				while(rs.next()) {		
-					int id = rs.getInt("id");
-					String regDate = rs.getString("regDate");
-					String updateDate = rs.getString("updateDate");
-					String title = rs.getString("title");
-					String body = rs.getString("body");
-					int memberId = rs.getInt("memberId");
-					int boardId = rs.getInt("boardId");
-					Article article = new Article(id, regDate, updateDate, title,body,memberId,boardId);
-					articles.add(article);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-		} finally {
-			// TODO: handle finally clause
-			System.out.println("여기는 항상 실행됨!!");
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		for (Map<String, Object> articleMap : articleMapList) {
+			articles.add(new Article(articleMap));
 		}
 		return articles;
 	}
