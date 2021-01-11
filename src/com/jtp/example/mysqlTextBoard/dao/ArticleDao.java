@@ -32,106 +32,27 @@ public class ArticleDao {
 		return articles;
 	}
 	public Article getArticle(int id) {
-		Article article = null;
-		Connection con = null;
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM article");
+		sql.append("WHERE id = ?", id);
 
-		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-			String dbmsLoginId = "jttpp";
-			String dbmsLoginPw = "123412";
+		Map<String, Object> articleMap = MysqlUtil.selectRow(sql);
 
-			// MySQL 드라이버 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-			String sql = "SELECT * FROM article WHERE id = ?";
-
-			try {
-				PreparedStatement pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, id);
-				ResultSet rs = pstmt.executeQuery();
-
-				if (rs.next()) {
-					int articleId = rs.getInt("id");
-					String regDate = rs.getString("regDate");
-					String updateDate = rs.getString("updateDate");
-					String title = rs.getString("title");
-					String body = rs.getString("body");
-					int memberId = rs.getInt("memberId");
-					int boardId = rs.getInt("boardId");
-
-					article = new Article(articleId, regDate, updateDate, title, body, memberId, boardId);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		if (articleMap.isEmpty()) {
+			return null;
 		}
 
-		return article;
+		return new Article(articleMap);
 	}
 	public int delete(int id) {
-		int affectedRows = 0;
-		Connection con = null;
+		SecSql sql = new SecSql();
+		sql.append("DELETE");
+		sql.append("FROM article");
+		sql.append("WHERE id = ?", id);
 
-		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-			String dbmsLoginId = "jttpp";
-			String dbmsLoginPw = "123412";
-
-			// MySQL 드라이버 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-			String sql = "DELETE FROM article WHERE id = ?";
-
-			try {
-				PreparedStatement pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, id);
-				affectedRows= pstmt.executeUpdate();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return affectedRows;
+		return MysqlUtil.delete(sql);
+	
 	}
 	public int add(int boardId, int memberId, String title, String body) {
 		int id = 0;
