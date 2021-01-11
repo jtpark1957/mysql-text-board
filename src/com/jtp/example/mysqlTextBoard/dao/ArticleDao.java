@@ -3,6 +3,7 @@ package com.jtp.example.mysqlTextBoard.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,16 +34,34 @@ public class ArticleDao {
 			try {
 				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
 			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+				e.printStackTrace();			}
 			
-			String sql = "UPDATE article";
-			sql += " SET updateDate = NOW()";
-			sql += " WHERE id = 3";
+			String sql = "SELECT * FROM article ORDER BY id DESC";
 
 			try {
 				PreparedStatement pstmt = con.prepareStatement(sql);
-				pstmt.execute();
+				ResultSet rs = pstmt.executeQuery();
+
+				while(rs.next()) {		
+					int id = rs.getInt("id");
+					String regDate = rs.getString("regDate");
+					String updateDate = rs.getString("updateDate");
+					String title = rs.getString("title");
+					String body = rs.getString("body");
+					int memberId = rs.getInt("memberId");
+					int boardId = rs.getInt("boardId");
+					Article article = new Article();
+					article.id = id;
+					article.regDate = regDate;
+					article.updateDate = updateDate;
+					article.title = title;
+					article.title = title;
+					article.body = body;
+					article.memberId = memberId;
+					article.boardId = boardId;
+	
+					articles.add(article);
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
