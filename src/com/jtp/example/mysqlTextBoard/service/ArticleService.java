@@ -20,5 +20,12 @@ public class ArticleService {
 		// TODO Auto-generated method stub
 		return articleDao.getArticle(id);
 	}
+	public int delete(int id) {
+		return articleDao.delete(id);
+	}
+	public int write(int boardId, int memberId, String title, String body) {
+		// TODO Auto-generated method stub
+		return articleDao.add(boardId, memberId, title, body);
+	}
  
 }

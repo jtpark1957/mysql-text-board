@@ -15,7 +15,6 @@ public class App {
 			if(cmd.startsWith("article")) {
 				articlecontroller.doCommand(cmd);
 			} else if (cmd.equals("system exit")) {
-				articlecontroller.showList();
 				System.out.println("== 시스템 종료 ==");
 				break;
 			}
