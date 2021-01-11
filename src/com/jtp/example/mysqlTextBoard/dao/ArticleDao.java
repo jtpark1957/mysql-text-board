@@ -24,7 +24,7 @@ public class ArticleDao {
 
 			// 기사 등록
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
+				Class.forName("com.mysql.cj.jdbc.Driver");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -50,16 +50,7 @@ public class ArticleDao {
 					String body = rs.getString("body");
 					int memberId = rs.getInt("memberId");
 					int boardId = rs.getInt("boardId");
-					Article article = new Article();
-					article.id = id;
-					article.regDate = regDate;
-					article.updateDate = updateDate;
-					article.title = title;
-					article.title = title;
-					article.body = body;
-					article.memberId = memberId;
-					article.boardId = boardId;
-	
+					Article article = new Article(id, regDate, updateDate, title,body,memberId,boardId);
 					articles.add(article);
 				}
 			} catch (SQLException e) {
@@ -79,36 +70,63 @@ public class ArticleDao {
 		}
 		return articles;
 	}
+	public Article getArticle(int id) {
+		Article article = null;
+		Connection con = null;
 
-	private List<Article> getFakeArticles() {
-		List<Article> articles = new ArrayList<>();
-		Article article;
+		try {
+			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
+			String dbmsLoginId = "jttpp";
+			String dbmsLoginPw = "123412";
 
-		// 첫번째 가짜 게시물 만들기
-		article = new Article();
-		article.id = 1;
-		article.regDate = "2020-11-12 12:12:12";
-		article.updateDate = "2020-11-12 12:12:12";
-		article.title = "제목1";
-		article.body = "내용1";
-		article.memberId = 1;
-		article.boardId = 1;
+			// MySQL 드라이버 등록
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 
-		articles.add(article);
+			// 연결 생성
+			try {
+				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 
-		// 두번째 가짜 게시물 만들기
-		article = new Article();
-		article.id = 2;
-		article.regDate = "2020-11-12 12:12:13";
-		article.updateDate = "2020-11-12 12:12:13";
-		article.title = "제목2";
-		article.body = "내용2";
-		article.memberId = 1;
-		article.boardId = 1;
+			String sql = "SELECT * FROM article WHERE id = ?";
 
-		articles.add(article);
+			try {
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, id);
+				ResultSet rs = pstmt.executeQuery();
 
-		return articles;
+				if (rs.next()) {
+					int articleId = rs.getInt("id");
+					String regDate = rs.getString("regDate");
+					String updateDate = rs.getString("updateDate");
+					String title = rs.getString("title");
+					String body = rs.getString("body");
+					int memberId = rs.getInt("memberId");
+					int boardId = rs.getInt("boardId");
+
+					article = new Article(articleId, regDate, updateDate, title, body, memberId, boardId);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return article;
 	}
+
 
 }

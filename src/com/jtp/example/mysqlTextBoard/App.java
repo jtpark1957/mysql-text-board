@@ -8,14 +8,14 @@ public class App {
 	public void run() {
 		Scanner sc = Container.scanner;
 
+		ArticleController articlecontroller = new ArticleController();
 		while (true) {
 			System.out.printf("명령어) ");
 			String cmd = sc.nextLine();
-
-			if (cmd.equals("article list")) {
-				ArticleController articlecontroller = new ArticleController();
-				articlecontroller.showList();
+			if(cmd.startsWith("article")) {
+				articlecontroller.doCommand(cmd);
 			} else if (cmd.equals("system exit")) {
+				articlecontroller.showList();
 				System.out.println("== 시스템 종료 ==");
 				break;
 			}
