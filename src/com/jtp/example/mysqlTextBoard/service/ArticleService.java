@@ -27,5 +27,9 @@ public class ArticleService {
 		// TODO Auto-generated method stub
 		return articleDao.add(boardId, memberId, title, body);
 	}
+	public int modify(int id, String title, String body) {
+		// TODO Auto-generated method stub
+		return articleDao.modify(id,title,body);
+	}
  
 }
