@@ -55,62 +55,17 @@ public class ArticleDao {
 	
 	}
 	public int add(int boardId, int memberId, String title, String body) {
-		int id = 0;
-		Connection con = null;
+		SecSql sql = new SecSql();
 
-		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-			String dbmsLoginId = "jttpp";
-			String dbmsLoginPw = "123412";
+		sql.append("INSERT INTO article");
+		sql.append(" SET regDate = NOW()");
+		sql.append(", updateDate = NOW()");
+		sql.append(", boardId = ?", boardId);
+		sql.append(", memberId = ?", memberId);
+		sql.append(", title = ?", title);
+		sql.append(", body = ?", body);
 
-			// MySQL 드라이버 등록
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			String sql = "INSERT INTO article";
-			sql += " SET regDate = NOW()";
-			sql += ", updateDate = NOW()";
-			sql += ", boardId = ?";
-			sql += ", memberId = ?";
-			sql += ", title = ?";
-			sql += ", body = ?";
-			
-
-			try {
-				PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-				pstmt.setInt(1, boardId);
-				pstmt.setInt(2, memberId);
-				pstmt.setString(3, title);
-				pstmt.setString(4, body);
-				pstmt.executeUpdate();
-
-				ResultSet rs = pstmt.getGeneratedKeys();
-				rs.next();
-				id = rs.getInt(1);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return id;
+		return MysqlUtil.insert(sql);
 	}
 
 
