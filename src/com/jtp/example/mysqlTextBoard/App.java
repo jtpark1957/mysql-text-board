@@ -16,11 +16,11 @@ public class App {
 		while (true) {
 			System.out.printf("명령어) ");
 			String cmd = sc.nextLine();
-			
+
 			MysqlUtil.setDBInfo("127.0.0.1", "jttpp", "123412", "textBoard");
 			boolean needToExit = false;
 			if (cmd.equals("system exit")) {
-			
+
 				System.out.println("== 시스템 종료 ==");
 				needToExit = true;
 			} else {
@@ -30,12 +30,10 @@ public class App {
 				}
 			}
 			MysqlUtil.closeConnection();
-			if(needToExit) {
+			if (needToExit) {
 				break;
 			}
-			
 		}
-		
 	}
 
 	private Controller getControllerByCmd(String cmd) {
