@@ -50,6 +50,7 @@ public class ArticleController extends Controller {
 	}
 
 	private void showDeatil(String cmd) {
+		System.out.println("== 게시물 디테 ==");
 		if (cmd.split("article")[1].equals(" detail")) {
 			return;
 		}
@@ -73,6 +74,11 @@ public class ArticleController extends Controller {
 	}
 
 	private void doDelete(String cmd) {
+		System.out.println("== 게시물 삭 ==");
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
 		if (cmd.split("article")[1].equals(" delete")) {
 			return;
 		}
@@ -89,6 +95,11 @@ public class ArticleController extends Controller {
 	}
 
 	private void doWrite(String cmd) {
+		System.out.println("== 게시물 작 ==");
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
 		System.out.println("== 게시물 작성 ==");
 
 		Scanner sc = Container.scanner;
@@ -99,7 +110,7 @@ public class ArticleController extends Controller {
 		System.out.printf("내용 : ");
 		String body = sc.nextLine();
 
-		int memberId = 1; // 임시 1
+		int memberId = Container.session.getLoginedMemberId(); // 임시 1
 		int boardId = 1; // 임시 1
 
 		int id = articleService.write(boardId, memberId, title, body);
@@ -109,6 +120,11 @@ public class ArticleController extends Controller {
 	}
 
 	private void doModify(String cmd) {
+		System.out.println("== 게시물 수 ==");
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
 		if (cmd.split("article")[1].equals(" modify")) {
 			return;
 		}
