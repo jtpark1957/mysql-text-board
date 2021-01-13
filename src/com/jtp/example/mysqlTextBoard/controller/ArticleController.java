@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.jtp.example.mysqlTextBoard.Container;
 import com.jtp.example.mysqlTextBoard.dto.Article;
+import com.jtp.example.mysqlTextBoard.dto.Board;
 import com.jtp.example.mysqlTextBoard.dto.Member;
 import com.jtp.example.mysqlTextBoard.service.ArticleService;
 import com.jtp.example.mysqlTextBoard.service.MemberService;
@@ -33,8 +34,11 @@ public class ArticleController extends Controller {
 	}
 
 	private void showList() {
-		System.out.println("== 게시물 리스트 ==");
-		List<Article> articles = articleService.getForPrintArticles();
+		String boardCode = Container.session.getCurrentBoardCode();
+		Board board = articleService.getBoardByCode(boardCode);
+		System.out.printf("== %s 게시물 리스트 ==\n", board.name);
+		
+		List<Article> articles = articleService.getForPrintArticles(board.id);
 
 		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목");
 

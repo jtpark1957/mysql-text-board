@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jtp.example.mysqlTextBoard.dto.Article;
+import com.jtp.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlutil.SecSql;
 
@@ -78,7 +79,7 @@ public class ArticleDao {
 
 		return MysqlUtil.update(sql);
 	}
-	public List<Article> getForPrintArticles() {
+	public List<Article> getForPrintArticles(int boardId) {
 		List<Article> articles = new ArrayList<>();
 
 		SecSql sql = new SecSql();
@@ -87,7 +88,11 @@ public class ArticleDao {
 		sql.append("FROM article AS A");
 		sql.append("INNER JOIN `member` AS M");
 		sql.append("ON A.memberId = M.id");
+		if (boardId != 0) {
+			sql.append("WHERE A.boardId = ?", boardId);
+		}
 		sql.append("ORDER BY A.id DESC");
+		
 
 		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
 
@@ -96,6 +101,20 @@ public class ArticleDao {
 		}
 
 		return articles;
+	}
+	public Board getBoardByCode(String boardCode) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM board");
+		sql.append("WHERE `code` = ?", boardCode);
+
+		Map<String, Object> map = MysqlUtil.selectRow(sql);
+
+		if (map.isEmpty()) {
+			return null;
+		}
+
+		return new Board(map);
 	}
 
 

@@ -91,7 +91,7 @@ public class MemberController extends Controller {
 			return;
 		}
 
-		Session.loginedMemberId = member.id;
+		Container.session.login(member.id);
 
 		System.out.printf("%s님 환영합니다.\n", member.name);
 	}

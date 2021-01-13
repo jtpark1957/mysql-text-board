@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jtp.example.mysqlTextBoard.dao.ArticleDao;
 import com.jtp.example.mysqlTextBoard.dto.Article;
+import com.jtp.example.mysqlTextBoard.dto.Board;
 
 public class ArticleService {
 	private ArticleDao articleDao;
@@ -31,8 +32,12 @@ public class ArticleService {
 		// TODO Auto-generated method stub
 		return articleDao.modify(id,title,body);
 	}
-	public List<Article> getForPrintArticles() {
-		return articleDao.getForPrintArticles();
+	public List<Article> getForPrintArticles(int boardId) {
+		return articleDao.getForPrintArticles(boardId);
+	}
+	public Board getBoardByCode(String boardCode) {
+		// TODO Auto-generated method stub
+		return articleDao.getBoardByCode(boardCode);
 	}
  
 }

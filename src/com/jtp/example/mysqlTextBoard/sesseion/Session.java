@@ -2,8 +2,14 @@ package com.jtp.example.mysqlTextBoard.sesseion;
 
 public class Session {
 
-	public static int loginedMemberId;
+	private static int loginedMemberId;
+	
+	private String currentBoardCode;
 
+	public Session() {
+		// 공지사항을 기본 선택된 게시판으로 지정
+		currentBoardCode = "notice";
+	}
 	public boolean isLogined() {
 		return loginedMemberId > 0;
 	}
@@ -15,6 +21,14 @@ public class Session {
 	public void logout() {
 		loginedMemberId = 0;
 
+	}
+
+	public String getCurrentBoardCode() {
+		// TODO Auto-generated method stub
+		return currentBoardCode;
+	}
+	public void login(int id) {
+		loginedMemberId = id;
 	}
 
 }
