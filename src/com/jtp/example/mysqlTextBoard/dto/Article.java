@@ -24,14 +24,14 @@ public class Article {
 //		this.boardId = boardId;
 //		// TODO Auto-generated constructor stub
 //	}
-	public Article(Map<String, Object> articleMap) {
-		this.id = (int) articleMap.get("id");
-		this.regDate = (String) articleMap.get("regDate");
-		this.updateDate = (String) articleMap.get("updateDate");
-		this.title = (String) articleMap.get("title");
-		this.body = (String) articleMap.get("body");
-		this.memberId = (int) articleMap.get("memberId");
-		this.boardId = (int) articleMap.get("boardId");
+	public Article(Map<String, Object> Map) {
+		this.id = (int) Map.get("id");
+		this.regDate = (String) Map.get("regDate");
+		this.updateDate = (String) Map.get("updateDate");
+		this.title = (String) Map.get("title");
+		this.body = (String) Map.get("body");
+		this.memberId = (int) Map.get("memberId");
+		this.boardId = (int) Map.get("boardId");
 	}
 	@Override
 	public String toString() {
