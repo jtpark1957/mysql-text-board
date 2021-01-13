@@ -34,14 +34,13 @@ public class ArticleController extends Controller {
 
 	private void showList() {
 		System.out.println("== 게시물 리스트 ==");
-		List<Article> articles = articleService.getArticles();
+		List<Article> articles = articleService.getForPrintArticles();
 
 		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목");
 
 		for (Article article : articles) {
 
-			Member member = memberService.getMemberById(article.memberId);
-			String writer = member.name;
+			String writer = article.extra__writer;
 
 			System.out.printf("%d / %s / %s / %s / %s\n", article.id, article.regDate, article.updateDate, writer,
 					article.title);

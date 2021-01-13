@@ -31,5 +31,8 @@ public class ArticleService {
 		// TODO Auto-generated method stub
 		return articleDao.modify(id,title,body);
 	}
+	public List<Article> getForPrintArticles() {
+		return articleDao.getForPrintArticles();
+	}
  
 }

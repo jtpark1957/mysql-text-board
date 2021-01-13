@@ -10,20 +10,9 @@ public class Article {
 	public String body;
 	public int memberId;
 	public int boardId ;
-//	public Article() {
-//		
-//	}
-//	public Article(int id, String regDate, String updateDate, String title, String body, int memberId,
-//			int boardId) {
-//		this.id = id;
-//		this.regDate = regDate;
-//		this.updateDate = updateDate;
-//		this.title = title;
-//		this.body = body;
-//		this.memberId = memberId;
-//		this.boardId = boardId;
-//		// TODO Auto-generated constructor stub
-//	}
+	
+	public String extra__writer;
+
 	public Article(Map<String, Object> Map) {
 		this.id = (int) Map.get("id");
 		this.regDate = (String) Map.get("regDate");
@@ -32,6 +21,9 @@ public class Article {
 		this.body = (String) Map.get("body");
 		this.memberId = (int) Map.get("memberId");
 		this.boardId = (int) Map.get("boardId");
+		if (Map.containsKey("extra__writer")) {
+			this.extra__writer = (String) Map.get("extra__writer");
+		}
 	}
 	@Override
 	public String toString() {
