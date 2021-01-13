@@ -22,4 +22,7 @@ public class Member {
 		return "Member [id=" + id + ", regDate=" + regDate + ", updateDate=" + updateDate + ", loginId=" + loginId
 				+ ", loginPw=" + loginPw + ", name=" + name + "]";
 	}
+	public boolean isAdmin() {
+		return loginId.equals("test1");
+	}
 }

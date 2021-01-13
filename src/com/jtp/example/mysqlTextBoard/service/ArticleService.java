@@ -39,5 +39,19 @@ public class ArticleService {
 		// TODO Auto-generated method stub
 		return articleDao.getBoardByCode(boardCode);
 	}
- 
+	public boolean isMakeBoardAvailableName(String name) {
+		Board board = articleDao.getBoardByName(name);
+
+		return board == null;
+	}
+
+	public boolean isMakeBoardAvailableCode(String code) {
+		Board board = articleDao.getBoardByCode(code);
+
+		return board == null;
+	}
+
+	public int makeBoard(String code, String name) {
+		return articleDao.makeBoard(code, name);
+	}
 }
