@@ -8,37 +8,45 @@ import com.jtp.example.mysqlTextBoard.dto.Board;
 
 public class ArticleService {
 	private ArticleDao articleDao;
-		
+
 	public ArticleService() {
 		articleDao = new ArticleDao();
 	}
+
 	public List<Article> getArticles() {
 		// TODO Auto-generated method stub
 		return articleDao.getArticles();
-		
+
 	}
+
 	public Article getArticle(int id) {
 		// TODO Auto-generated method stub
 		return articleDao.getArticle(id);
 	}
+
 	public int delete(int id) {
 		return articleDao.delete(id);
 	}
+
 	public int write(int boardId, int memberId, String title, String body) {
 		// TODO Auto-generated method stub
 		return articleDao.add(boardId, memberId, title, body);
 	}
+
 	public int modify(int id, String title, String body) {
 		// TODO Auto-generated method stub
-		return articleDao.modify(id,title,body);
+		return articleDao.modify(id, title, body);
 	}
+
 	public List<Article> getForPrintArticles(int boardId) {
 		return articleDao.getForPrintArticles(boardId);
 	}
+
 	public Board getBoardByCode(String boardCode) {
 		// TODO Auto-generated method stub
 		return articleDao.getBoardByCode(boardCode);
 	}
+
 	public boolean isMakeBoardAvailableName(String name) {
 		Board board = articleDao.getBoardByName(name);
 
@@ -53,5 +61,13 @@ public class ArticleService {
 
 	public int makeBoard(String code, String name) {
 		return articleDao.makeBoard(code, name);
+	}
+
+	public List<Board> getForPrintBoards() {
+		return articleDao.getForPrintBoards();
+	}
+
+	public int getArticlesCount(int boardId) {
+		return articleDao.getArticlesCount(boardId);
 	}
 }

@@ -30,5 +30,9 @@ public class Session {
 	public void login(int id) {
 		loginedMemberId = id;
 	}
+	public void setCurrentBoardCode(String code) {
+		this.currentBoardCode = code;
+		
+	}
 
 }
