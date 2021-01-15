@@ -11,8 +11,6 @@ public class App {
 	public void run() {
 		Scanner sc = Container.scanner;
 
-		ArticleController articlecontroller = new ArticleController();
-		MemberController membercontroller = new MemberController();
 		while (true) {
 			System.out.printf("명령어) ");
 			String cmd = sc.nextLine();
@@ -41,6 +39,8 @@ public class App {
 			return Container.articleController;
 		} else if (cmd.startsWith("member ")) {
 			return Container.memberController;
+		} else if (cmd.startsWith("build ")) {
+			return Container.buildController;
 		}
 
 		return null;
