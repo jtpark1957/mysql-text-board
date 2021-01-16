@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jtp.example.mysqlTextBoard.Container;
 import com.jtp.example.mysqlTextBoard.dto.Article;
+import com.jtp.example.mysqlTextBoard.dto.Board;
 import com.jtp.example.mysqlTextBoard.util.Util;
 
 public class BuildService {
@@ -23,7 +24,7 @@ public class BuildService {
 		Util.copy("site_template/app.css", "site/app.css");
 
 		List<Article> articles = articleService.getArticles();
-		String head = Util.getFileContents("site_template/head.html");
+		String head = getHeadHtml();
 		String foot = Util.getFileContents("site_template/foot.html");
 		for (Article article : articles) {
 			StringBuilder sb = new StringBuilder();
@@ -50,5 +51,44 @@ public class BuildService {
 
 			System.out.println(filePath + " 생성");
 		}
+	}
+
+	private String getHeadHtml() {
+		String head = Util.getFileContents("site_template/head.html");
+
+		StringBuilder boardMenuContentHtml = new StringBuilder();
+		List<Board> forPrintBoards = articleService.getForPrintBoards();
+
+		for (Board board : forPrintBoards) {
+			boardMenuContentHtml.append("<li>");
+
+			String link = board.code + "-list-1.html";
+
+			boardMenuContentHtml.append("<a href=\"" + link + "\" class=\"block\">");
+
+			String iClass = "fas fa-clipboard-list";
+
+			if (board.code.contains("notice")) {
+				iClass = "fab fa-free-code-camp";
+			} else if (board.code.contains("free")) {
+				iClass = "fab fa-free-code-camp";
+			}
+
+			boardMenuContentHtml.append("<i class=\"" + iClass + "\"></i>");
+
+			boardMenuContentHtml.append(" ");
+
+			boardMenuContentHtml.append("<span>");
+			boardMenuContentHtml.append(board.name);
+			boardMenuContentHtml.append("</span>");
+
+			boardMenuContentHtml.append("</a>");
+
+			boardMenuContentHtml.append("</li>");
+		}
+
+		head = head.replace("${menu-bar__menu-1__board-menu-content}", boardMenuContentHtml.toString());
+
+		return head;
 	}
 }
