@@ -82,13 +82,17 @@ a {
 	height: 100%;
 }
 
+.block {
+	display: block;
+}
+
 /* 커스텀 */
 .con-min-width {
-	min-width: 1200px;
+	min-width: 800px;
 }
 
 .con {
-	width: 1200px;
+	width: 800px;
 }
 
 /* 로고 시작 */
@@ -111,4 +115,50 @@ a {
 	color: white;
 	height: 150px;
 }
-/* 로고바 끝 */ 
+/* 로고바 끝 */
+
+/* 메뉴바 시작 */
+.menu-bar {
+	background-color: black;
+	color: white;
+}
+
+.menu-bar__menu-1>ul>li {
+	width: 25%;
+	position: relative;
+}
+
+.menu-bar__menu-1 ul>li>a {
+	text-align: center;
+	padding: 20px 0;
+}
+
+.menu-bar__menu-1 ul>li:hover>a {
+	background-color: white;
+	color: black;
+}
+
+.menu-bar__menu-1>ul>li>a {
+	border-radius: 10px 10px 0 0;
+}
+
+.menu-bar__menu-1>ul ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: -10px;
+	width: 100%;
+	background-color: black;
+	border: 10px solid black;
+	border-top-width: 0;
+	border-radius: 0 0 10px 10px;
+}
+
+.menu-bar__menu-1>ul>li:hover>ul {
+	display: block;
+}
+
+.menu-bar__menu-1>ul ul>li:last-child>a {
+	border-radius: 0 0 10px 10px;
+}
+/* 메뉴바 끝 */
