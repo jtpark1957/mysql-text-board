@@ -73,7 +73,7 @@ public class BuildService {
 			} else if (board.code.contains("free")) {
 				iClass = "fab fa-free-code-camp";
 			}
-
+			
 			boardMenuContentHtml.append("<i class=\"" + iClass + "\"></i>");
 
 			boardMenuContentHtml.append(" ");
