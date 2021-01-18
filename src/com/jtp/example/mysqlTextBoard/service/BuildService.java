@@ -24,8 +24,52 @@ public class BuildService {
 		Util.copy("site_template/app.css", "site/app.css");
 		buildIndexPage();
 		buildArticleDetailPages();
+		buildArticleListPages();
 
 		
+	}
+
+	private void buildArticleListPages() {
+		List<Board> boards = articleService.getForPrintBoards();
+
+		String bodyTemplate = Util.getFileContents("site_template/article_list.html");
+		String foot = Util.getFileContents("site_template/foot.html");
+		for (Board board : boards) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append(getHeadHtml("article_list_" + board.code));
+
+			String fileName = "article_list_" + board.code + "_1.html";
+
+			List<Article> articles = articleService.getForPrintArticles(board.id);
+
+			StringBuilder mainContent = new StringBuilder();
+
+			for (Article article : articles) {
+				String link = "article_detail_" + article.id + ".html";
+
+				mainContent.append("<div>");
+				mainContent.append("<div class=\"article-list__cell-id\">" + article.id + "</div>");
+				mainContent.append("<div class=\"article-list__cell-reg-date\">" + article.regDate + "</div>");
+				mainContent.append("<div class=\"article-list__cell-writer\">" + article.extra__writer + "</div>");
+				mainContent.append("<div class=\"article-list__cell-title\">");
+
+				mainContent.append("<a href=\"" + link + "\" class=\"hover-underline\">" + article.title + "</a>");
+
+				mainContent.append("</div>");
+				mainContent.append("</div>");
+			}
+
+			String body = bodyTemplate.replace("${article-list__main-content}", mainContent.toString());
+
+			sb.append(body);
+			sb.append(foot);
+
+			String filePath = "site/" + fileName;
+
+			Util.writeFile(filePath, sb.toString());
+			System.out.println(filePath + " 생성");
+		}
 	}
 
 	private void buildIndexPage() {
@@ -85,7 +129,7 @@ public class BuildService {
 		for (Board board : forPrintBoards) {
 			boardMenuContentHtml.append("<li>");
 
-			String link = board.code + "-list-1.html";
+			String link = "article_list_" + board.code + "_1.html";
 
 			boardMenuContentHtml.append("<a href=\"" + link + "\" class=\"block\">");
 
